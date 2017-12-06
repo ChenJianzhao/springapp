@@ -2,5 +2,5 @@ package org.demo.auto.common.dao;
 
 public interface IDispUserDao {
 
-    void display();
+    void display(String caller);
 }

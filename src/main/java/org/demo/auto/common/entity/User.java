@@ -13,8 +13,31 @@ import org.springframework.web.context.WebApplicationContext;
 //@Scope(WebApplicationContext.SCOPE_SESSION)
 public class User {
 
+    int id;
     String username = null;
     String password = null;
+
+    public User() {
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(int id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -32,8 +55,9 @@ public class User {
         this.password = password;
     }
 
+
     @Override
     public String toString() {
-        return "[" + username + "]" + super.toString();
+        return "(" + id + ")[" + username + "]" + super.toString();
     }
 }

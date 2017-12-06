@@ -10,6 +10,9 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+/**
+ * 日志记录切面类
+ */
 @Aspect
 @Component
 public class LogAspect {

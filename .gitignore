@@ -3,3 +3,4 @@ target/
 springapp.iml
 .idea/
 .settings/
+.DS_Store

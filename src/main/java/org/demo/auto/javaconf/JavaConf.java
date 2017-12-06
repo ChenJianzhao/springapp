@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ImportResource;
 @Configuration
 @EnableAspectJAutoProxy
 @Import({SubConfig.class})
-//@ImportResource({"classpath:xml/subApplicationContext.xml"}) // ªÏ∫œµº»Î
+//@ImportResource({"classpath:xml/subApplicationContext.xml"})
 public class JavaConf {
     
 }

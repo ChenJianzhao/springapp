@@ -14,4 +14,18 @@
 
 
     <context:component-scan base-package="org.demo.auto.common.entity" />
+    <context:component-scan base-package="org.demo.auto.common.dao" />
+    <context:component-scan base-package="org.demo.auto.xml.aspect" />
+
+    <!-- 启用 aspect 自动代理 -->
+    <aop:aspectj-autoproxy />
+
+    <aop:config >
+        <aop:aspect ref="logAspect" >
+            <aop:pointcut id="log" expression="execution(* org.demo.auto.common.dao.impl.*.*(..))" />
+            <aop:before method="logBefore" pointcut-ref="log" />
+            <aop:after method="logAfter" pointcut-ref="log" />
+            <aop:around method="logAround" pointcut-ref="log" />
+        </aop:aspect>
+    </aop:config>
 </beans>

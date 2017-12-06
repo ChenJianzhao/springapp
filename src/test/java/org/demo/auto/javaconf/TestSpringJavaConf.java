@@ -3,8 +3,10 @@ package org.demo.auto.javaconf;
 import javax.annotation.Resource;
 
 import org.demo.auto.common.dao.IDispUserDao;
+import org.demo.auto.common.dao.INewDispUserDao;
 import org.demo.auto.common.entity.User;
 import org.demo.auto.javaconf.aspect.LogAspect;
+import org.demo.auto.javaconf.aspect.NewMethodAspect;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,9 +26,12 @@ public class TestSpringJavaConf {
     @Resource
     IDispUserDao dispUserDao = null;
     
-    @Resource
+    @Resource // 切面实现日志记录
     LogAspect logAspect = null;
-    
+
+    @Resource // 使用切面为 bean 引入新功能
+    NewMethodAspect newMethodAspect = null;
+
     @Test
     public void testJavaConf() {
 
@@ -35,9 +40,15 @@ public class TestSpringJavaConf {
     }
     
     @Test
-    public void testAspect() {
-	Assert.assertNotNull(dispUserDao);
-	Assert.assertNotNull(logAspect);
-	dispUserDao.display();
+    public void testLogAspect() {
+        Assert.assertNotNull(dispUserDao);
+        Assert.assertNotNull(logAspect);
+	    dispUserDao.display("JUnit");
+    }
+
+    @Test
+    public void testNewMethodAspect() {
+        Assert.assertNotNull(newMethodAspect);
+        ((INewDispUserDao)dispUserDao).newDisplay();
     }
 }
