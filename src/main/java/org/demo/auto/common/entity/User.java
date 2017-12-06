@@ -1,11 +1,16 @@
-package org.demo.javaconf.entity;
+package org.demo.auto.common.entity;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * Created by cjz on 2017/12/6.
  */
 @Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+//@Scope(WebApplicationContext.SCOPE_SESSION)
 public class User {
 
     String username = null;

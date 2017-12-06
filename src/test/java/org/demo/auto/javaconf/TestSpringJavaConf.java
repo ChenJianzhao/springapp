@@ -1,14 +1,15 @@
-package org.demo.javaconf;
+package org.demo.auto.javaconf;
 
-import org.demo.javaconf.config.JavaConf;
-import org.demo.javaconf.entity.User;
+import javax.annotation.Resource;
+
+import org.demo.auto.common.dao.IDispUserDao;
+import org.demo.auto.common.entity.User;
+import org.demo.auto.javaconf.aspect.LogAspect;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.annotation.Resource;
 
 /**
  * Created by cjz on 2017/12/6.
@@ -20,10 +21,23 @@ public class TestSpringJavaConf {
     @Resource
     User user = null;
 
+    @Resource
+    IDispUserDao dispUserDao = null;
+    
+    @Resource
+    LogAspect logAspect = null;
+    
     @Test
     public void testJavaConf() {
 
         System.out.println(user.toString());
         Assert.assertNotNull(user);
+    }
+    
+    @Test
+    public void testAspect() {
+	Assert.assertNotNull(dispUserDao);
+	Assert.assertNotNull(logAspect);
+	dispUserDao.display();
     }
 }

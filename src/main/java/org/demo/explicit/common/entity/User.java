@@ -1,15 +1,20 @@
-package org.demo.xml.entity;
-
-import org.springframework.stereotype.Component;
+package org.demo.explicit.common.entity;
 
 /**
  * Created by cjz on 2017/12/6.
  */
-@Component
 public class User {
 
     String username = null;
     String password = null;
+    
+    public User() {
+    }
+
+    public User(String username, String password) {
+	this.username = username;
+	this.password = password;
+    }
 
     public String getUsername() {
         return username;

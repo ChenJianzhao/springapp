@@ -1,19 +1,19 @@
-package org.demo.xml;
+package org.demo.explicit.xml;
 
-import org.demo.xml.entity.User;
+import javax.annotation.Resource;
+
+import org.demo.explicit.common.entity.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
-
 /**
  * Created by cjz on 2017/12/6.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:xml/applicationContext.xml"})
+@ContextConfiguration(locations = {"classpath:explicit/xml/applicationContext.xml"})
 public class TestSpringXml {
 
     @Resource
