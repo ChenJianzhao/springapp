@@ -13,7 +13,10 @@
        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 
-    <!-- <context:component-scan base-package="org.demo.xml.entity" /> -->
+    <!-- 导入其他 xml 配置 -->
     <import resource="classpath:auto/xml/subApplicationContext.xml"/>
+
+    <!-- 混合导入 JavaConfig 配置类中的配置 -->
     <!-- <bean id="javaConf" class="org.demo.javaconf.config.JavaConf"/> -->
+
 </beans>

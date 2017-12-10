@@ -1,29 +1,23 @@
-package org.demo.auto.xml;
+package org.demo.auto.xml.dubbo;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
 /**
  * Created by cjz on 2017/12/10.
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = {"classpath:auto/xml/dubbo/dubbo-provider.xml"})
-public class TestDubboProvider {
+public class DubboProvider {
 
-//    @Test
-    public void TestDubboProvider() throws IOException {
+    public static void main(String[] args) throws IOException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[] {"classpath:auto/xml/dubbo/dubbo-provider.xml"});
 
-        System.in.read(); // 按任意键退出
-    }
-
-    public static void main() throws IOException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"classpath:auto/xml/dubbo/dubbo-provider.xml"});
+//        AnnotationConfigApplicationContext c = new AnnotationConfigApplicationContext(new Class[]{});
         context.start();
+
         System.in.read(); // 按任意键退出
     }
 }

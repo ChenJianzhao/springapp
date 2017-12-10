@@ -20,6 +20,7 @@
     <!-- 启用 aspect 自动代理 -->
     <aop:aspectj-autoproxy />
 
+    <!-- xml 方式配置切面 -->
     <aop:config >
         <aop:aspect ref="logAspect" >
             <aop:pointcut id="log" expression="execution(* org.demo.auto.common.dao.impl.*.*(..))" />
