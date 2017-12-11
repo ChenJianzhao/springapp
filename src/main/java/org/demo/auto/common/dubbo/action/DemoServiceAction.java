@@ -1,4 +1,4 @@
-package org.demo.auto.common.dubbo.service.impl;
+package org.demo.auto.common.dubbo.action;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.demo.auto.common.dubbo.service.IDemoService;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * Created by cjz on 2017/12/10.
  */
 @Component
-public class DemoServiceMock implements IDemoService{
+public class DemoServiceAction implements IDemoService{
 
     IDemoService demoService = null;
 

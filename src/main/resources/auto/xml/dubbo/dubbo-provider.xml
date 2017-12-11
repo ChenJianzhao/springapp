@@ -9,7 +9,7 @@
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="org.demo.auto.common.dubbo.service" />
+    <!--<context:component-scan base-package="org.demo.auto.common.dubbo.service" />-->
 
     <!-- 提供方应用信息，用于计算依赖关系 -->
     <dubbo:application name="hello-world-app" />
@@ -24,9 +24,10 @@
     <!-- 声明需要暴露的服务接口 -->
     <!--<dubbo:service interface="org.demo.auto.common.dubbo.service.IDemoService" ref="demoService" />-->
 
-    <!-- 和本地bean一样实现服务 -->
+    <!-- 【方法1】和本地bean一样实现服务 -->
     <!--<bean id="demoService" class="com.alibaba.dubbo.demo.provider.DemoServiceImpl" />-->
 
+    <!-- 【方法2】启动 dubbo 注解扫描，扫描 @Service 注解，替代 <dubbo:service ... /> 配置 -->
     <dubbo:annotation package="org.demo.auto.common.dubbo.service" />
 
 </beans>
