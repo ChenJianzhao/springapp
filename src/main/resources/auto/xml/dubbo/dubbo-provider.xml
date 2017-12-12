@@ -30,4 +30,7 @@
     <!-- 【方法2】启动 dubbo 注解扫描，扫描 @Service 注解，替代 <dubbo:service ... /> 配置 -->
     <dubbo:annotation package="org.demo.auto.common.dubbo.service" />
 
+    <!-- 声明服务实现的接口（不需要真的有接口，因为不需要实现），ref 引用一个实现了 GenericService 的 mock，可以处理所有消费端的请求 ） -->
+    <dubbo:service interface="org.demo.auto.common.dubbo.service.IGenericServiceMock" ref="myGenericService" />
+
 </beans>

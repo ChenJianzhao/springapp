@@ -1,6 +1,7 @@
 package org.demo.auto.xml;
 
 import org.demo.auto.common.dubbo.service.IGourpService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,8 +22,8 @@ public class TestDubboGroupService {
     @Resource
     IGourpService groupServiceTwoAction = null;
 
-//    @Resource
-//    IGourpService groupServiceMergeAction = null;
+    @Resource
+    IGourpService groupServiceMergeAction = null;
 
     @Resource
     IGourpService groupServiceMerge = null;
@@ -33,6 +34,13 @@ public class TestDubboGroupService {
 //        System.out.println(groupServiceOneAction.echoNum(1));
 //        System.out.println(groupServiceTwoAction.echoNum(2));
 //        System.out.println(groupServiceMergeAction.echoNum(0));
-        System.out.println(groupServiceMerge.echoNum(0));
+
+        for (String item : groupServiceMergeAction.getList()) {
+            System.out.println(item);
+        }
+
+        for(String item : groupServiceMerge.getArray()) {
+            System.out.println(item);
+        }
     }
 }
