@@ -10,6 +10,7 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="org.demo.auto.common.dubbo.action" />
+    <context:component-scan base-package="org.demo.auto.common.dubbo.util.impl" />
 
     <!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
     <dubbo:application name="consumer-of-helloworld-app" />
@@ -21,6 +22,9 @@
     <!-- 【方法1】生成远程服务代理，可以和本地bean一样使用demoService -->
     <!--<dubbo:reference id="demoService" interface="org.demo.auto.common.dubbo.service.IDemoService" />-->
 
+    <!-- 【方法2】启动 dubbo 注解扫描，扫描 @Reference 注解，替代 <dubbo:reference ... /> 配置 -->
+    <dubbo:annotation package="org.demo.auto.common.dubbo.action" />
+
     <!-- 分组聚合暂时不知道怎么使用注解， @Reference 注解中没有 merge 属性-->
     <dubbo:reference id="groupServiceMerge" interface="org.demo.auto.common.dubbo.service.IGourpService" group="*">
         <dubbo:method name="getList" merger="true" />
@@ -28,9 +32,19 @@
         <dubbo:method name="getMap" merger="true" />
     </dubbo:reference>
 
+    <!-- 泛型调用，主要消费端没有 -->
     <dubbo:reference id="demoGenericService" interface="org.demo.auto.common.dubbo.service.IDemoGenericService" generic="true" />
 
-    <!-- 【方法2】启动 dubbo 注解扫描，扫描 @Reference 注解，替代 <dubbo:reference ... /> 配置 -->
-    <dubbo:annotation package="org.demo.auto.common.dubbo.action" />
+    <!-- 异步调用 -->
+    <dubbo:reference id="longTimeAsyncService" interface="org.demo.auto.common.dubbo.service.ILongTimeAsyncService">
+        <dubbo:method name="longTimeAsyncMethod" async="true" sent="false"/>
+        <dubbo:method name="longTimeSyncMethod" timeout="3000"/>
+    </dubbo:reference>
+
+    <!-- 测试 oninvoke,onreturn,onthrow 失败，怀疑和 Spring 版本有关 -->
+    <dubbo:reference id="notifyService" interface="org.demo.auto.common.dubbo.service.INotifyService" >
+        <!--<dubbo:method name="sayHelloWithNotify" async="false" oninvoke="notifyImpl.oninvoke" onreturn="notifyImpl.onreturn" onthrow="notifyImpl.onthrow" />-->
+        <dubbo:method name="sayHelloWithNotify" />
+    </dubbo:reference>
 
 </beans>

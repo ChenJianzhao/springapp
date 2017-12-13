@@ -33,4 +33,14 @@
     <!-- 声明服务实现的接口（不需要真的有接口，因为不需要实现），ref 引用一个实现了 GenericService 的 mock，可以处理所有消费端的请求 ） -->
     <dubbo:service interface="org.demo.auto.common.dubbo.service.IGenericServiceMock" ref="myGenericService" />
 
+    <!-- 测试参数回调参数，只需要在 Spring 的配置文件中声明哪个参数是 callback 类型即可。
+        Dubbo 将基于长连接生成反向代理，这样就可以从服务器端调用 客户端逻辑。 -->
+    <bean id="callbackService" class="org.demo.auto.common.dubbo.service.impl.CallbackService" />
+    <dubbo:service interface="org.demo.auto.common.dubbo.service.ICallbackService" ref="callbackService" connections="1" callbacks="1000">
+        <dubbo:method name="addListener">
+            <dubbo:argument index="1" callback="true" />
+            <!--也可以通过指定类型的方式-->
+            <!--<dubbo:argument type="com.demo.CallbackListener" callback="true" />-->
+        </dubbo:method>
+    </dubbo:service>
 </beans>
