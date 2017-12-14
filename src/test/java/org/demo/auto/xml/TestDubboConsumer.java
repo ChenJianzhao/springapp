@@ -48,10 +48,45 @@ public class TestDubboConsumer{
 
 
     @Resource
+    IGourpService groupServiceOneAction = null;
+    @Resource
+    IGourpService groupServiceTwoAction = null;
+    @Resource
+    IGourpService groupServiceMergeAction = null;
+    @Resource
+    IGourpService groupServiceMerge = null;
+
+    /**
+     * 测试分组和聚合
+     * @see org.demo.auto.common.dubbo.service.impl.GroupServiceOne
+     * @see org.demo.auto.common.dubbo.service.impl.GroupServiceTwo
+     * @see org.demo.auto.common.dubbo.action.GroupServiceOneAction
+     * @see org.demo.auto.common.dubbo.action.GroupServiceTwoAction
+     * @see org.demo.auto.common.dubbo.action.GroupServiceMergeAction
+     */
+    @Test
+    public void TestGroupMerge() {
+        // 测试分组1
+        System.out.println(groupServiceOneAction.echoNum(1));
+        // 测试分组2
+        System.out.println(groupServiceTwoAction.echoNum(2));
+        // 测试分组聚合
+        for (String item : groupServiceMergeAction.getList()) {
+            System.out.println(item);
+        }
+
+        for(String item : groupServiceMerge.getArray()) {
+            System.out.println(item);
+        }
+    }
+
+
+    @Resource
     ICacheService cacheServiceAction;
 
     /**
      * 测试缓存
+     * @see org.demo.auto.common.dubbo.action.CacheServiceAction
      */
     @Test
     public void testCachedService() {
@@ -80,6 +115,7 @@ public class TestDubboConsumer{
      * 测试泛化调用
      * 泛化接口调用方式主要用于客户端没有 API 接口及模型类元的情况，
      * 通常用于框架集成，比如:实现一个通用的服务测试框架，可通过 GenericService 调用所有服务实现。
+     * @see org.demo.auto.common.dubbo.service.impl.DemoGenericService
      */
     @Test
     @SuppressWarnings("unchecked")
@@ -103,6 +139,7 @@ public class TestDubboConsumer{
      * 泛接口实现方式主要用于服务器端没有API接口及模型类元的情况，
      * 通常用于框架集成，比如:实现一个通用的远程服务Mock框架，可通 过实现GenericService接口处理所有服务请求。
      * 服务提供者不需要真的有接口（因为不需要实现），ref 引用一个实现了 GenericService 的 mock，可以处理所有消费端的请求
+     * @see org.demo.auto.common.dubbo.service.impl.MyGenericService
      */
     @Test
     public void testGenericServiceMock() {
@@ -147,27 +184,33 @@ public class TestDubboConsumer{
 
     }
 
+
     @Resource
-    ILongTimeAsyncService longTimeAsyncServiceAction;
+    ILongTimeAsyncService longTimeAsyncService;
 
     /**
-     * 测试异步调用 失败！！！！！
+     * 测试异步调用
      * @throws ExecutionException
      * @throws InterruptedException
+     * @see org.demo.auto.common.dubbo.service.impl.LongTimeAsyncService
+     * @see auto.xml.dubbo dubbo-consumer.xml <dubbo:reference id="longTimeAsyncService" ... />
      */
     @Test
     public void testAsyncMethodService() throws ExecutionException, InterruptedException {
-        System.out.println("sync method start: " + new Date(System.currentTimeMillis()));
-        longTimeAsyncServiceAction.longTimeSyncMehtod("invoke sync method");
-        System.out.println("sync method end: " + new Date(System.currentTimeMillis()));
+        // 测试同步方法
+        System.out.println("log: sync method start: " + new Date(System.currentTimeMillis()));
+        System.out.println(longTimeAsyncService.longTimeSyncMethod("invoke sync method"));
+        System.out.println("log: sync method end: " + new Date(System.currentTimeMillis()));
 
-        System.out.println("async method start: " + new Date(System.currentTimeMillis()));
-        longTimeAsyncServiceAction.longTimeAsyncMethod("invoke async method");
-        System.out.println("async method end: " + new Date(System.currentTimeMillis()));
+        // 测试异步方法
+        System.out.println("log: async method start: " + new Date(System.currentTimeMillis()));
+        longTimeAsyncService.longTimeAsyncMethod("invoke async method");
+        System.out.println("log: async method end: " + new Date(System.currentTimeMillis()));
         Future<String> barFuture = RpcContext.getContext().getFuture();
         System.out.println(barFuture.get());
-        System.out.println("async method real finish: " + new Date(System.currentTimeMillis()));
+        System.out.println("log: async method real finish: " + new Date(System.currentTimeMillis()));
     }
+
 
     @Resource
     ICallbackService callbackServiceAction;
@@ -177,6 +220,7 @@ public class TestDubboConsumer{
      * 只需要在 Spring 的配置文件中声明哪个参数是 callback 类型即可。
      * Dubbo 将基于长连接生成反向代理，这样就可以从服务器端调用 客户端逻辑。
      * @see auto.xml.dubbo dubbo-consumer.xml
+     * @see org.demo.auto.common.dubbo.service.impl.CallbackService
      */
     @Test
     public void testCallbackService() {
@@ -186,6 +230,7 @@ public class TestDubboConsumer{
             }
         });
     }
+
 
     @Resource
     INotifyService notifyService;
@@ -202,16 +247,32 @@ public class TestDubboConsumer{
         System.out.println(notifyService.sayHelloWithNotify("suzy"));
     }
 
+
     @Resource
     IBarService barServiceAction;
 
     /**
-     * 此时就需要在 API 中带上 Stub，客户端生成 Proxy 实例，会把 Proxy 通过构造函数传给Stub ，然后把 Stub 暴露给用户，Stub 可以决定要不要去调 Proxy。
-     * 在 interface 旁边放一个 Stub 实现，它实现 BarService 接口，并有一个传入远程 BarService 实例的构造函数
+     * 测试本地存根 service stub 和 本地伪装 service mock
+     * @see org.demo.auto.common.dubbo.service.impl.BarService
+     * @see org.demo.auto.common.dubbo.service.stub.BarServiceStub
+     * @see org.demo.auto.common.dubbo.service.mock.BarServiceMock
      */
     @Test
-    public void testBarServiceStub() {
+    public void testBarServiceStubAndMock() {
         System.out.println(barServiceAction.sayHello("stub"));
     }
 
+
+    @Resource
+    IAuthService authServiceAction;
+
+    /**
+     * 测试 令牌验证，Service 开启了令牌验证，Reference 直连会抛错误 token 异常
+     * @see org.demo.auto.common.dubbo.service.impl.AuthService
+     * @see org.demo.auto.common.dubbo.action.AuthServiceAction
+     */
+    @Test
+    public void testAuthToken() {
+        System.out.println(authServiceAction.sayHelloWithAuth("cjz"));
+    }
 }

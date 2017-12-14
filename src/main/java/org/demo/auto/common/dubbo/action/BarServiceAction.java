@@ -18,7 +18,7 @@ public class BarServiceAction implements IBarService {
         return barService;
     }
 
-    @Reference(mock = "org.demo.auto.common.dubbo.service.mock.BarServiceMock")
+    @Reference
     public void setBarService(IBarService barService) {
         this.barService = barService;
     }

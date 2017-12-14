@@ -7,5 +7,5 @@ public interface ILongTimeAsyncService {
 
     String longTimeAsyncMethod(String name);
 
-    String longTimeSyncMehtod(String name);
+    String longTimeSyncMethod(String name);
 }

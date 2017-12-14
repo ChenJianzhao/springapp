@@ -17,7 +17,7 @@ public class LongTimeAsyncService implements ILongTimeAsyncService {
         return name;
     }
 
-    public String longTimeSyncMehtod(String name) {
+    public String longTimeSyncMethod(String name) {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
