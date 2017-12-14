@@ -8,7 +8,6 @@ import org.demo.auto.common.dubbo.service.IBarService;
  */
 public class BarServiceStub implements IBarService {
 
-    @Reference
     IBarService barService;
 
     public BarServiceStub(IBarService barService) {

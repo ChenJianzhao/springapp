@@ -202,5 +202,16 @@ public class TestDubboConsumer{
         System.out.println(notifyService.sayHelloWithNotify("suzy"));
     }
 
+    @Resource
+    IBarService barServiceAction;
+
+    /**
+     * 此时就需要在 API 中带上 Stub，客户端生成 Proxy 实例，会把 Proxy 通过构造函数传给Stub ，然后把 Stub 暴露给用户，Stub 可以决定要不要去调 Proxy。
+     * 在 interface 旁边放一个 Stub 实现，它实现 BarService 接口，并有一个传入远程 BarService 实例的构造函数
+     */
+    @Test
+    public void testBarServiceStub() {
+        System.out.println(barServiceAction.sayHello("stub"));
+    }
 
 }
