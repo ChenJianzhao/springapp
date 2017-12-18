@@ -21,6 +21,8 @@
     <!-- 用dubbo协议在20880端口暴露服务 -->
     <dubbo:protocol name="dubbo" port="20880" dispatcher="all" threadpool="cached" threads="10" />
 
+    <dubbo:monitor protocol="registry" />
+    <!--<dubbo:monitor address="localhost:8081" />-->
     <!-- 声明需要暴露的服务接口 -->
     <!--<dubbo:service interface="org.demo.auto.common.dubbo.service.IDemoService" ref="demoService" />-->
 

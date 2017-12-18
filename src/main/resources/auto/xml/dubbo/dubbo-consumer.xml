@@ -13,7 +13,7 @@
     <context:component-scan base-package="org.demo.auto.common.dubbo.util.impl" />
 
     <!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
-    <dubbo:application name="consumer-of-helloworld-app" />
+    <dubbo:application name="hello-world-app" logger="log4j" />
 
     <!-- 使用multicast广播注册中心暴露发现服务地址 -->
     <!--<dubbo:registry address="multicast://224.5.6.7:1234" /> -->

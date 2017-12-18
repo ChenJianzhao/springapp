@@ -16,7 +16,7 @@ public class DemoServiceAction implements IDemoService{
         return demoService;
     }
 
-    @Reference
+    @Reference(loadbalance = "roundrobin")
     public void setDemoService(IDemoService demoService) {
         this.demoService = demoService;
     }
