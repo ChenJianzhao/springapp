@@ -1,4 +1,4 @@
-package org.demo.auto.javaconf;
+package org.demo.common;
 
 //package com.alibaba.dubbo.remoting;
 import com.alibaba.dubbo.common.URL;
