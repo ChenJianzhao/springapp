@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Repository
+//@Repository
 public class DispUserDao implements IDispUserDao{
 
     User user = null;

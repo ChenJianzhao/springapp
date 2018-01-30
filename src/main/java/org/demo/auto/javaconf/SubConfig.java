@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan(basePackageClasses = {EntityScanMark.class, DaoScanMark.class, AspectMark.class})
-public class SubConfig {
+public class   SubConfig {
 
     @Bean
 //    @Profile("dev")

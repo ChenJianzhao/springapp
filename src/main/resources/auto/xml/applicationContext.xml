@@ -14,9 +14,17 @@
 
 
     <!-- 导入其他 xml 配置 -->
-    <import resource="classpath:auto/xml/subApplicationContext.xml"/>
+    <!--<import resource="classpath:auto/xml/subApplicationContext.xml"/>-->
 
     <!-- 混合导入 JavaConfig 配置类中的配置 -->
     <!-- <bean id="javaConf" class="org.demo.javaconf.config.JavaConf"/> -->
+
+    <context:component-scan base-package="org.demo.auto.common.entity" />
+    <context:component-scan base-package="org.demo.auto.common.dao" />
+    <context:component-scan base-package="org.demo.auto.xml.aspect" />
+
+    <!-- 启用 aspect 自动代理 -->
+    <aop:aspectj-autoproxy />
+
 
 </beans>
