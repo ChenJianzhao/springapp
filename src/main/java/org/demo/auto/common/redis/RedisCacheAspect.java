@@ -27,10 +27,13 @@ public class RedisCacheAspect {
     StringRedisTemplate rt;
 
 
-    @Pointcut("execution(* org.demo.auto.common.dao.IDispUserDao.select*(..))")
+    @Pointcut("execution(* org.demo.auto.common.dao.*.select*(..)) " +
+            "|| execution(* org.demo.auto.common.dao.*.get*(..)) " +
+            "|| execution(* org.demo.auto.common.mapper.*.get*(..))")
     public void cachePointcut() { };
     
-    @Pointcut("execution(* org.demo.auto.common.dao.IDispUserDao.delete*(..))")
+    @Pointcut("execution(* org.demo.auto.common.dao.*.delete*(..)) " +
+            "|| execution(* org.demo.auto.common.mapper.*.delete*(..))")
     public void evictPointcut() { };
     
     /**
@@ -47,7 +50,9 @@ public class RedisCacheAspect {
     @Around("cachePointcut()")
     public Object cache(ProceedingJoinPoint jp) throws Throwable {
         // 得到类名、方法名和参数
-        String clazzName = jp.getTarget().getClass().getName();
+
+//        String clazzName = jp.getTarget().getClass().getName();       // MyBatis 下存在一个问题，Mapper 接口没有实现类，target 为代理类，类名可能为 com.sun.proxy.$Proxy29 的形式。
+        String clazzName = jp.getSignature().getDeclaringTypeName();
         String methodName = jp.getSignature().getName();
         Object[] args = jp.getArgs();
 

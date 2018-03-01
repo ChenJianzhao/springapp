@@ -4,6 +4,8 @@ import org.demo.auto.common.entity.User;
 import org.demo.auto.common.redis.RedisCache;
 import org.demo.auto.common.redis.RedisEvict;
 
+import java.util.List;
+
 public interface IDispUserDao {
 
     void display(String caller);
@@ -13,4 +15,5 @@ public interface IDispUserDao {
     
     @RedisEvict(type = User.class)
     void delete(int id);
+
 }

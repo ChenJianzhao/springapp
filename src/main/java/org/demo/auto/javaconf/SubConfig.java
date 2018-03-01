@@ -17,6 +17,10 @@ import javax.sql.DataSource;
 @ComponentScan(basePackageClasses = {EntityScanMark.class, DaoScanMark.class, AspectMark.class})
 public class   SubConfig {
 
+    /**
+     * 使用内嵌数据库 H2 作为数据源，JdbcTemplate 直接操作数据库
+     * @return
+     */
     @Bean
 //    @Profile("dev")
     public DataSource dataSource() {

@@ -42,9 +42,9 @@ public class DispUserDao implements IDispUserDao{
 	    user.setUsername("cjz");
 	    user.setPassword("hash123456");
 
-	    String insertSql = "insert into T_User (FUsername, FPassword) Values (?, ?)";
-	    int i = jdbcTemplate.update(insertSql, user.getUsername(), user.getPassword());
-        System.out.println("updated " + i);
+//	    String insertSql = "insert into T_User (FUsername, FPassword) Values (?, ?)";
+//	    int i = jdbcTemplate.update(insertSql, user.getUsername(), user.getPassword());
+//        System.out.println("updated " + i);
 
         String querySql  = "select * from T_User where FUsername = ? ";
         User queryUser = jdbcTemplate.queryForObject(querySql, new Object[]{user.getUsername()}, new RowMapper<User>() {
