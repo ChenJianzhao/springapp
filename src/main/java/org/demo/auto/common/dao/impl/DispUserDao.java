@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-//@Repository
+@Repository
 public class DispUserDao implements IDispUserDao{
 
     User user = null;
@@ -60,5 +60,31 @@ public class DispUserDao implements IDispUserDao{
 
         System.out.println(queryUser);
     }
+
+	@Override
+	public User select(int id) {
+
+	    String querySql = "select * from `user` where id = ? ";
+        User queryUser = jdbcTemplate.queryForObject(querySql, new Object[]{id}, new RowMapper<User>() {
+        	
+            public User mapRow(ResultSet resultSet, int i) throws SQLException {
+                int id = resultSet.getInt("ID");
+                String username = resultSet.getString("Username");
+                String password = resultSet.getString("Password");
+                User user =  new User(id,username,password);
+
+                return  user;
+            }
+        });
+        
+        return queryUser;
+	}
+
+	@Override
+	public void delete(int id) {
+		 String delSql = "delete from `user` where id = ? ";
+		 int count = jdbcTemplate.update(delSql, new Object[]{id});
+		 System.out.println("delete " + count + "row");
+	}
 
 }
