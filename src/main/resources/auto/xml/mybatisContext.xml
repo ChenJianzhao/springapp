@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+       http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+
+    <!-- 集成 MyBatis-->
+    <!-- 【*】扫描 Mapper -->
+    <mybatis:scan base-package="org.demo.auto.common.mapper"/>
+
+    <!-- 【*】MyBatis的SqlSessionFactory -->
+    <!-- 集成包中包含了org.mybatis.spring.SqlSessionFactoryBean类，这是一个工厂类，
+    可以方便的创建MyBatis的SqlSessionFactory。所有属性均可以通过该类进行设置。
+    如果希望使用传统的XML配置的话，也可以直接设置configLocation属性为MyBatis配置文件。 -->
+    <bean id="sqlSessionFactory"
+          class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath*:auto/xml/mybatis/mapper/*.xml" />
+        <property name="configLocation" value="classpath:auto/xml/mybatis/configuration.xml"/>
+    </bean>
+
+    <!--数据源 MySQL 的数据库连接池-->
+    <!--<bean id="dataSource"-->
+    <!--class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">-->
+    <!--<property name="user" value="root"/>-->
+    <!--<property name="password" value=""/>-->
+    <!--<property name="url" value="jdbc:mysql://localhost:3306/test"/>-->
+    <!--<property name="useSSL" value="false"/>-->
+    <!--</bean>-->
+
+    <!-- 【*】MyBatis使用JDBC的事务管理器-->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 【*】MyBatis是一个轻量级的框架，没有自己的事务管理器。我们直接使用JDBC事务管理器即可。 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="select*" read-only="true"/>
+            <tx:method name="update*"/>
+            <tx:method name="delete*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 【*】使用AOP设置事务管理-->
+    <aop:config>
+        <aop:pointcut id="dao" expression="execution(* org.demo.auto.common.dao.impl.*.*(..)) || execution(* org.demo.auto.common.mapper.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="dao"/>
+    </aop:config>
+
+</beans>

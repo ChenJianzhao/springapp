@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        使用 AOP 实现自定义的 Redis 缓存
+        使用 XML 配置 JedisConnectionFactory 和 RedisTemplate
+        因为使用的 key 为字符串，value 为对象序列化后的 json，所以可以直接使用 StringRedisTemplate 实现类
+    -->
+
+    <!-- 【*】Redis JedisConnectionFactory  -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="localhost" />
+        <property name="port" value="6379" />
+    </bean>
+
+    <!-- Spring-Data 中 StringRedisTemplate 简化访问 Redis -->
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate" >
+        <property name="connectionFactory" ref= "jedisConnectionFactory"></property>
+    </bean>
+
+</beans>

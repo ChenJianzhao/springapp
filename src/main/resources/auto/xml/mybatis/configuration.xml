@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
+    <!-- 配置扫描别名 -->
+    <typeAliases>
+        <package name="org.demo.auto.common.entity"/>
+    </typeAliases>
+
+    <!-- 不集成 Spring 可在此处指定 mapper 文件或接口文件-->
+    <mappers>
+        <!-- 扫描路径下的mapper映射文件 -->
+        <!--<mapper resource="mapper/UserMapper.xml"/>-->
+        <!-- 扫描包下的接口文件 -->
+        <!--<package name="org.demo.auto.common.mapper" />-->
+    </mappers>
+
+
+</configuration>

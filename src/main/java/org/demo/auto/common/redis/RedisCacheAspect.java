@@ -19,6 +19,11 @@ import com.alibaba.fastjson.JSON;
 
 @Aspect
 @Component
+/**
+ * 自定义的 Redis 缓存切面
+ * @see RedisCache
+ * @see RedisEvict
+ */
 public class RedisCacheAspect {
 	
     public static final Logger infoLog = Logger.getLogger(RedisCacheAspect.class.getName());
@@ -29,11 +34,14 @@ public class RedisCacheAspect {
 
     @Pointcut("execution(* org.demo.auto.common.dao.*.select*(..)) " +
             "|| execution(* org.demo.auto.common.dao.*.get*(..)) " +
-            "|| execution(* org.demo.auto.common.mapper.*.get*(..))")
+            "|| execution(* org.demo.auto.common.mapper.*.get*(..)) " +
+            "|| execution(* org.demo.auto.common.mapper.*.select*(..))")
     public void cachePointcut() { };
     
     @Pointcut("execution(* org.demo.auto.common.dao.*.delete*(..)) " +
-            "|| execution(* org.demo.auto.common.mapper.*.delete*(..))")
+            "|| execution(* org.demo.auto.common.mapper.*.delete*(..))" +
+            "|| execution(* org.demo.auto.common.mapper.*.update*(..))" +
+            "|| execution(* org.demo.auto.common.mapper.*.remove*(..))")
     public void evictPointcut() { };
     
     /**

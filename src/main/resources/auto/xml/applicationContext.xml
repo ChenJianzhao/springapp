@@ -6,70 +6,51 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:jaxws="http://cxf.apache.org/jaxws"
        xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-       http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+       http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+       http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
 
-    <!-- 导入其他 xml 配置 -->
+    <!-- 【*】导入其他 xml 配置 -->
     <!--<import resource="classpath:auto/xml/subApplicationContext.xml"/>-->
 
-    <!-- 混合导入 JavaConfig 配置类中的配置 -->
-    <!-- <bean id="javaConf" class="org.demo.javaconf.config.JavaConf"/> -->
+    <!-- mybatis 配置文件 -->
+    <import resource="classpath:auto/xml/mybatisContext.xml"/>
 
+    <!-- 【*】混合导入 JavaConfig 配置类中的配置 -->
+    <!-- <bean id="javaConf" class="org.demo.javaconf.config.JavaConf"/> -->
+    <!--<bean id="javaConf" class="org.demo.auto.javaconf.cache.EhCacheConf"/>-->
+    <bean id="javaConf" class="org.demo.auto.javaconf.cache.RedisCacheConf"/>
+
+    <!-- 自定义的 Redis 缓存配置文件 -->
+    <!--<import resource="classpath:auto/xml/redisContext.xml"/>-->
+    <!--<context:component-scan base-package="org.demo.auto.common.redis" />-->
+
+
+    <!-- 【*】指定接受 Spring 管理的 Bean 路径 -->
     <context:component-scan base-package="org.demo.auto.common.entity" />
     <context:component-scan base-package="org.demo.auto.common.dao" />
     <context:component-scan base-package="org.demo.auto.xml.aspect" />
-    <context:component-scan base-package="org.demo.auto.common.redis" />
+    <!--<context:component-scan base-package="org.demo.auto.javaconf.cache" />-->
 
-    <!-- 启用 aspect 自动代理 -->
+
+    <!-- 【*】启用注解驱动缓存  JacaConf 可在类头加 @EnableCaching-->
+    <cache:annotation-driven key-generator="org.demo.auto.javaconf.cache.CustomKeyGenerator"/>
+    <!-- 声明缓存管理器 -->
+    <!-- Spring 内置的几个缓存管理器 -->
+    <!--<bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />-->
+
+    <!-- 【*】启用 aspect 自动代理 -->
     <aop:aspectj-autoproxy />
 
 
-    <!-- 集成包中包含了org.mybatis.spring.SqlSessionFactoryBean类，这是一个工厂类，
-    可以方便的创建MyBatis的SqlSessionFactory。所有属性均可以通过该类进行设置。
-    如果希望使用传统的XML配置的话，也可以直接设置configLocation属性为MyBatis配置文件。 -->
-    <!--MyBatis的SqlSessionFactory-->
-    <bean id="sqlSessionFactory"
-          class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <!--<property name="configLocation" value="configuration.xml"/>-->
-    </bean>
-
-    <!--数据源 MySQL 的数据库连接池-->
-    <!--<bean id="dataSource"-->
-          <!--class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">-->
-        <!--<property name="user" value="root"/>-->
-        <!--<property name="password" value=""/>-->
-        <!--<property name="url" value="jdbc:mysql://localhost:3306/test"/>-->
-        <!--<property name="useSSL" value="false"/>-->
-    <!--</bean>-->
-    <!--MyBatis使用JDBC的事务管理器-->
-    <bean id="transactionManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <!-- MyBatis是一个轻量级的框架，没有自己的事务管理器。我们直接使用JDBC事务管理器即可。 -->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="get*" read-only="true"/>
-            <tx:method name="*"/>
-        </tx:attributes>
-    </tx:advice>
-    <!--使用AOP设置事务管理-->
-    <aop:config>
-        <aop:pointcut id="dao" expression="execution(* org.demo.auto.common.dao.impl.*.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="dao"/>
-    </aop:config>
-
-    <!-- 扫描 Mapper -->
-    <mybatis:scan base-package="org.demo.auto.common.mapper"/>
-
-    <!--配置c3p0数据源-->
+    <!-- 【*】配置数据源-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" 	value="com.mysql.jdbc.Driver"/>
         <property name="url" 				value="jdbc:mysql:///test"/>
@@ -77,16 +58,9 @@
         <property name="password" 			value=""/>
     </bean>
 
+    <!-- 【*】配置 JdbcTemplate 简化 jdbc 直接操作数据库的操作 -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-	 	<property name="hostName" value="localhost" />
-	 	<property name="port" value="6379" />
-	 </bean>
-	 
-	<bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate" >
-		<property name="connectionFactory" ref= "jedisConnectionFactory"></property>
-	</bean>
 </beans>

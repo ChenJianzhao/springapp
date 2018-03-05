@@ -6,7 +6,7 @@
 <mapper namespace="org.demo.auto.common.mapper.UserMapper">
     <select id="getUserList" resultType="user">
         select * from user where id in
-        <foreach collection="ids" open="(" close=")" separator="," index="index" item="item">
+        <foreach collection="list" open="(" close=")" separator="," index="index" item="item">
           #{item}
         </foreach>
     </select>

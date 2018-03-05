@@ -5,13 +5,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.Serializable;
+
 /**
  * Created by cjz on 2017/12/6.
  */
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 //@Scope(WebApplicationContext.SCOPE_SESSION)
-public class User {
+public class User implements Serializable{
 
     int id;
     String username = null;
@@ -58,6 +60,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "(" + id + ")[" + username + "]" + super.toString();
+        return "(" + id + ")[" + username + "]" ;
     }
 }
