@@ -41,7 +41,9 @@
 
 
     <!-- 【*】启用注解驱动缓存  JacaConf 可在类头加 @EnableCaching-->
-    <cache:annotation-driven key-generator="org.demo.auto.javaconf.cache.CustomKeyGenerator"/>
+    <!-- <cache:annotation-driven key-generator="org.demo.auto.javaconf.cache.CustomKeyGenerator"/> -->
+    <cache:annotation-driven />
+    
     <!-- 声明缓存管理器 -->
     <!-- Spring 内置的几个缓存管理器 -->
     <!--<bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />-->
