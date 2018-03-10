@@ -13,11 +13,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TestRpcClient {
 
 	@Resource
-	IRemoteService remoteService;
+	IRemoteService hessianRemoteService;
 	
 	@Test
 	public void testRpcClient() {
-		System.out.println(remoteService.sayHelloTo("cjz"));
+		System.out.println(hessianRemoteService.sayHelloTo("cjz"));
 	}
 	
 }

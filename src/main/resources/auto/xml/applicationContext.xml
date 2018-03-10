@@ -27,6 +27,7 @@
     <!-- <bean id="javaConf" class="org.demo.javaconf.config.JavaConf"/> -->
     <!--<bean id="javaConf" class="org.demo.auto.javaconf.cache.EhCacheConf"/>-->
     <bean id="javaConf" class="org.demo.auto.javaconf.cache.RedisCacheConf"/>
+    <bean  class="org.demo.auto.javaconf.rpc.RpcServiceConf"/>
 
     <!-- 自定义的 Redis 缓存配置文件 -->
     <!--<import resource="classpath:auto/xml/redisContext.xml"/>-->

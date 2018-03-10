@@ -1,11 +1,15 @@
 package org.demo.auto.javaconf.rpc;
 
+import java.util.Properties;
+
 import org.demo.auto.common.service.IRemoteService;
 import org.demo.auto.common.service.impl.RemoteService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.caucho.HessianServiceExporter;
 import org.springframework.remoting.rmi.RmiServiceExporter;
+import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 
 @Configuration
 public class RpcServiceConf {
@@ -29,11 +33,20 @@ public class RpcServiceConf {
 	}
 	
 	@Bean
-	public HessianServiceExporter hessianExporter(IRemoteService remoteService) {
+	public HessianServiceExporter hessianExporterRemoteService(IRemoteService remoteService) {
 		HessianServiceExporter hessianExporter = new HessianServiceExporter();
 		hessianExporter.setService(remoteService);
 		hessianExporter.setServiceInterface(IRemoteService.class);
 		return hessianExporter;
+	}
+	
+	@Bean
+	public HandlerMapping hessianMapping() {
+		SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
+		Properties mappings = new Properties();
+		mappings.setProperty("/RemoteService.service", "hessianExporterRemoteService");
+		mapping.setMappings(mappings);
+		return mapping;
 	}
 	
 	@Bean
