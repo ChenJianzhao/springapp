@@ -27,6 +27,7 @@
     <!-- <bean id="javaConf" class="org.demo.javaconf.config.JavaConf"/> -->
     <!--<bean id="javaConf" class="org.demo.auto.javaconf.cache.EhCacheConf"/>-->
     <bean id="javaConf" class="org.demo.auto.javaconf.cache.RedisCacheConf"/>
+    <bean  class="org.demo.auto.javaconf.rpc.RpcServiceConf"/>
 
     <!-- 自定义的 Redis 缓存配置文件 -->
     <!--<import resource="classpath:auto/xml/redisContext.xml"/>-->
@@ -41,7 +42,9 @@
 
 
     <!-- 【*】启用注解驱动缓存  JacaConf 可在类头加 @EnableCaching-->
-    <cache:annotation-driven key-generator="org.demo.auto.javaconf.cache.CustomKeyGenerator"/>
+    <!-- <cache:annotation-driven key-generator="org.demo.auto.javaconf.cache.CustomKeyGenerator"/> -->
+    <cache:annotation-driven />
+    
     <!-- 声明缓存管理器 -->
     <!-- Spring 内置的几个缓存管理器 -->
     <!--<bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />-->
