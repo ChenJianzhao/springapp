@@ -14,6 +14,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 @Configuration
+//@ComponentScan(basePackages = {"org.demo.auto.common","org.demo.auto.javaconf.aspect"})
 @ComponentScan(basePackageClasses = {EntityScanMark.class, DaoScanMark.class, AspectMark.class})
 public class   SubConfig {
 

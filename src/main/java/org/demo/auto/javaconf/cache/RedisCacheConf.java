@@ -35,7 +35,10 @@ public class RedisCacheConf {
     public RedisTemplate redisTemplate(JedisConnectionFactory connectionFactory) {
         RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(connectionFactory);
+
+        // Key 序列化为 String
         redisTemplate.setKeySerializer(new StringRedisSerializer());
+        // value 序列化为 Json 字符串
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         return redisTemplate;
     }

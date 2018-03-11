@@ -14,7 +14,7 @@
     <!--<context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/>-->
 
     <!--打开spring 包扫描功能，不可缺少-->
-    <context:component-scan base-package="org.demo.auto.web.controller"/>
+    <context:component-scan base-package="org.demo.auto.common.web.controller"/>
 
     <!-- 打开mvc注解  -->
     <mvc:annotation-driven/>
@@ -29,7 +29,7 @@
         <!-- 只针对部分请求拦截 -->
         <mvc:interceptor>
             <mvc:mapping path="/mvc/**" />
-            <bean class="org.demo.auto.web.interceptor.MyInterceptor" />
+            <bean class="org.demo.auto.common.web.interceptor.MyInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
 

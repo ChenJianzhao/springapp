@@ -1,4 +1,4 @@
-package org.demo.auto.web.controller;
+package org.demo.auto.common.web.controller;
 
 import org.demo.auto.common.entity.User;
 import org.springframework.stereotype.Controller;
